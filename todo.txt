@@ -1,0 +1,45 @@
+- Build hs-authenticator
+- Checkin the jar 
+- Modify the setup.sh for following
+    - Have a provision to download the jar in keycloak docker container and mv that into keyclock folder
+    - Setup webcontext and other hs-authenticator related configurations
+    - Do all settings like creating relam, setting up hypersign from backend
+- Create dockerfile for hs-auth-server
+- Upload the hs-auth-server in docker hub
+
+
+
+Status of containerzation work which we are doing
+-------------------------------------------------
+
+* What is done so far;
+
+- We have a docker-compose (dev in progress) file which will setup keycloak with postgrest db
+- Repo: https://github.com/hypermine-bc/hypersign-deployment
+- We have a hypersign-setup.sh file (dev in progress)
+- We have containerrize hs-auth-server and the image is in docker hub
+- Image : https://hub.docker.com/repository/docker/hypermine/hs-auth-server
+- I also have docker101 (https://github.com/vishwas1/docker101) learning repo (just for learning docker)
+
+* Next step:
+
+- Add hs-auth-server in dockercompose file
+- Build hs-authenticator
+- Checkin the jar 
+- Modify the setup.sh for following
+    - Have a provision to download the jar in keycloak docker container and move that into keyclock folder
+    - Setup webcontext and other hs-authenticator related configurations from apis calls
+    - Do all settings like creating relam, setting up hypersign apis using keycloak api calls from backend
+
+
+
+
+
+{
+  "realm": "master",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "auth-server",
+  "public-client": true,
+  "confidential-port": 0
+}
