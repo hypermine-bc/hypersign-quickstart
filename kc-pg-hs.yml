@@ -3,6 +3,8 @@ version: '3'
 volumes:
   postgres_db_data:
       driver: local
+  keycloak:
+      driver: local
 
 services:
   postgres:
@@ -28,6 +30,8 @@ services:
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: admin
         KCBASE: /opt/jboss/keycloak/
+      volumes:
+        keycloak:/opt/jboss/keycloak
       ports:
         - 8080:8080
       depends_on:

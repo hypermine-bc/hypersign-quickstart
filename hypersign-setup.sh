@@ -38,12 +38,6 @@ docker ps
 exit
 
 
-##################################
-docker-compose -f kc-pg-hs.yml restart keycloak
-exit
-##################################s
-
-
 # docker-compose -f kc-pg-hs.yml  exec --user root keycloak tar -xvzf /hs-authenticator.tar.gz 
 # docker-compose -f kc-pg-hs.yml  exec --user root keycloak tar -xvzf /hs-authenticator/hs-theme.tar.gz
 
