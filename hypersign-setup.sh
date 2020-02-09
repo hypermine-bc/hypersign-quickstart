@@ -7,13 +7,15 @@ NC='\033[0m' # No Color
 
 KCBASE='/opt/jboss/keycloak'
 
+set -e
+
 echo -e "${BLUE_BG}Restarting docker containers...${NC}"
 docker-compose -f kc-pg-hs.yml config
 docker-compose -f kc-pg-hs.yml down
 docker-compose -f kc-pg-hs.yml up -d --remove-orphans
 
 echo -e "${BLUE_BG}Copying shell scripts into keycloak container...${NC}"
-docker cp kc-web-cntxt.sh "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/kc-web-cntxt.sh
+# docker cp kc-web-cntxt.sh "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/kc-web-cntxt.sh
 docker cp hs-kc-setup.sh "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/hs-kc-setup.sh
 
 
@@ -25,7 +27,7 @@ docker cp hs-authenticator.tar.gz "$(docker-compose -f kc-pg-hs.yml ps -q keyclo
 
 
 echo -e "${BLUE_BG}Running keycloak web context script${NC}"
-docker-compose -f kc-pg-hs.yml exec --user root keycloak sh /kc-web-cntxt.sh
+#docker-compose -f kc-pg-hs.yml exec --user root keycloak sh /kc-web-cntxt.sh
 
 
 echo -e "${BLUE_BG}Running hypersign keycloak setup script${NC}"
