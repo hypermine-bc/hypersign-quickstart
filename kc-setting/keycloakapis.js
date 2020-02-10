@@ -1,4 +1,11 @@
-// Ref: https://github.com/keycloak/keycloak-nodejs-admin-client
+/**
+ * References 
+ * * https://github.com/keycloak/keycloak-nodejs-admin-client
+ * * https://github.com/keycloak/keycloak-nodejs-admin-client/blob/master/test/clients.spec.ts
+ * * https://www.keycloak.org/docs-api/5.0/rest-api/index.html
+ * * https://github.com/keycloak/keycloak-documentation/blob/master/server_admin/topics/admin-cli.adoc
+ */
+
 
 const config = {
     HOSTURL : "http://localhost:8080",
@@ -12,7 +19,8 @@ const AUTHENTICATION_EP = {
         create: {
             METHOD: `POST`,
             URL: `${config.HOSTURL}/${config.BASEPATH}/admin/realms/${realm}/authentication/flows`,
-            PAY_LOAD: `{"alias":"${hs_auth_flow}","providerId":"basic-flow","description":"${hs_auth_flow}","topLevel":true,"builtIn":false}`
+            PAY_LOAD: `{"alias":"${hs_auth_flow}","providerId":"basic-flow","description":"${hs_auth_flow}","topLevel":true,"builtIn":false}`,
+            HEADER: `Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4M0R2NmNGRzRJZU1tN21jZ3FZVy1KRjJxMVR6akFIRVBWLTVSM0RUdGxjIn0.eyJqdGkiOiI5NGRiMDE4Zi1jMDBmLTQwMjAtYjM5YS1hMTZhZDg5ODVkYzYiLCJleHAiOjE1ODEzMTUwMDcsIm5iZiI6MCwiaWF0IjoxNTgxMzE0OTQ3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNWM2NWI5YzUtMzUyMy00YzVjLThjYmItZjk1ODExOTFjMWY3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2VjdXJpdHktYWRtaW4tY29uc29sZSIsIm5vbmNlIjoiMjU3MjlmY2ItMDNmMS00YTEzLWE0NmItY2RkNDEwNTAyYmRjIiwiYXV0aF90aW1lIjoxNTgxMzE0NzkzLCJzZXNzaW9uX3N0YXRlIjoiMmQwNGE0YzMtZjcyZi00NWVkLTk3MjktYTc1MzI5YWM5NDc4IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODAiXSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4ifQ.M3cAz6mES5IJPIafU41RU_UtW5bu2a2CyY1USmbAeGG4SipuNfUcstht9yYaT7aIhrjewOdhecuRzkOHqZ5Y8AhI-tObw4Je2DPWHlCfjZvZhsO-FTCYjnfGuwk8ZW33Lp7GaueLA17SzMfpMCLvAZpGn5d2wmwvR1I2QRN7TWl1jJPys8lHaciK4AveFGEfZHRPxdAAg7Td5g_2WZQoocsC90OtcaV1KbCqXUiTA7evNxHLG_Sc5-iZS_sSh4UXnraQNmD8ULo1y6lfqaQhW3s8YFMzli1pheDlXuTmyIDzXpvTgpAmDmPTI3o8VlA9UU7uU9es1JqXwNOvywlv9A`
         },
         copy: {
             METHOD:`POST`,
@@ -66,5 +74,16 @@ const CLIENT_EP = {
     }
 }
 
-// https://github.com/keycloak/keycloak-nodejs-admin-client/blob/master/test/clients.spec.ts
 
+
+
+
+
+
+//http://localhost:8080/auth/realms/master/protocol/openid-connect/auth?client_id=security-admin-console&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fadmin%2Fmaster%2Fconsole%2F&state=1499ccc6-bd7c-4434-8572-a247b1b32535&response_mode=fragment&response_type=code&scope=openid&nonce=f63aca6f-f154-4e30-851d-59acddf858e9
+
+//Set-Cookie: KC_RESTART=eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhMjJjOWRlMi04YzMzLTRkYjctOTMxMS03M2RmZDQ3ZDUyODkifQ.eyJjaWQiOiJzZWN1cml0eS1hZG1pbi1jb25zb2xlIiwicHR5Ijoib3BlbmlkLWNvbm5lY3QiLCJydXJpIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvYWRtaW4vbWFzdGVyL2NvbnNvbGUvIiwiYWN0IjoiQVVUSEVOVElDQVRFIiwibm90ZXMiOnsic2NvcGUiOiJvcGVuaWQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJyZWRpcmVjdF91cmkiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9hZG1pbi9tYXN0ZXIvY29uc29sZS8iLCJzdGF0ZSI6IjE0OTljY2M2LWJkN2MtNDQzNC04NTcyLWEyNDdiMWIzMjUzNSIsIm5vbmNlIjoiZjYzYWNhNmYtZjE1NC00ZTMwLTg1MWQtNTlhY2RkZjg1OGU5IiwicmVzcG9uc2VfbW9kZSI6ImZyYWdtZW50In19.lhQK6bCZw0Bel20yagpcKSwGT5TRQ3jVJUtr1U06j18; Version=1; Path=/auth/realms/master/; HttpOnly
+
+
+
+// 
