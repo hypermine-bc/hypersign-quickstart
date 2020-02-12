@@ -42,6 +42,6 @@ sh bin/jboss-cli.sh --command="module add --name=hs-plugin-keycloak-ejb --resour
 sleep 30
 
 echo -e "${BLUE_BG}Adding hs module to the keycloak configuration${NC}"
-bin/jboss-cli.sh --connect --controller=localhost:9990 --command='/subsystem=keycloak-server/:write-attribute(name=providers,value=["classpath:${jboss.home.dir}/providers/*","module:hs-plugin-keycloak-ejb"])'
+sh bin/jboss-cli.sh --connect --controller=localhost:9990 --command='/subsystem=keycloak-server/:write-attribute(name=providers,value=["classpath:${jboss.home.dir}/providers/*","module:hs-plugin-keycloak-ejb"])'
 
 exit
