@@ -16,7 +16,7 @@ docker cp hs-script/kc-webcontext.sh "$(docker-compose -f docker-compose.yml ps 
 docker cp hs-script/hs-plugin-install.sh "$(docker-compose -f docker-compose.yml ps -q keycloak)":/hs-plugin-install.sh
 docker cp hs-script/kc-configuration.sh  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/kc-configuration.sh
 
-docker cp data-template/param.json "$(docker-compose -f docker-compose.yml ps -q keycloak)":/param.json
+docker cp data-template/authenticator-flow-update.json "$(docker-compose -f docker-compose.yml ps -q keycloak)":/authenticator-flow-update.json
 docker cp data-template/client-create.json  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/client-create.json
 docker cp data-template/client-update.json  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/client-update.json
 

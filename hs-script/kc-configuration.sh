@@ -13,8 +13,8 @@ echo "Printing flowid = $FLOW_ID"
 EXECUTION_ID=$(./opt/jboss/keycloak/bin/kcadm.sh create authentication/flows/$AUTH_FLOW_NAME/executions/execution -r master -s provider=hyerpsign-qrocde-authenticator -s requirement=REQUIRED  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
 echo "Printing execid = $EXECUTION_ID"
 
-sed -i "s/EXECUTION_ID/$EXECUTION_ID/g" /param.json
-./opt/jboss/keycloak/bin/kcadm.sh update authentication/flows/$AUTH_FLOW_NAME/executions -r master  -f /param.json
+sed -i "s/EXECUTION_ID/$EXECUTION_ID/g" /authenticator-flow-update.json
+./opt/jboss/keycloak/bin/kcadm.sh update authentication/flows/$AUTH_FLOW_NAME/executions -r master  -f /authenticator-flow-update.json
 
 ## HS-API client setting
 
