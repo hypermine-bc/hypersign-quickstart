@@ -1,1 +1,8 @@
-{"enabled":true,"attributes":{},"redirectUris":[],"clientId":"hs-api-new","rootUrl":"","protocol":"openid-connect"}
+{
+  "enabled": true,
+  "attributes": {},
+  "redirectUris": [],
+  "clientId": "hs-api-new",
+  "rootUrl": "",
+  "protocol": "openid-connect"
+}

@@ -39,8 +39,9 @@ echo -e "${BLUE_BG}Deploying the hypersign plugin..${NC}"
 cd /opt/jboss/keycloak
 sh bin/jboss-cli.sh --command="module add --name=hs-plugin-keycloak-ejb --resources=/opt/jboss/keycloak/hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar --dependencies=org.keycloak.keycloak-common,org.keycloak.keycloak-core,org.keycloak.keycloak-services,org.keycloak.keycloak-model-jpa,org.keycloak.keycloak-server-spi,org.keycloak.keycloak-server-spi-private,javax.ws.rs.api,javax.persistence.api,org.hibernate,org.javassist,org.liquibase,com.fasterxml.jackson.core.jackson-core,com.fasterxml.jackson.core.jackson-databind,com.fasterxml.jackson.core.jackson-annotations,org.jboss.resteasy.resteasy-jaxrs,org.jboss.logging,org.apache.httpcomponents,org.apache.commons.codec,org.keycloak.keycloak-wildfly-adduser"
 
+sleep 30
 
 echo -e "${BLUE_BG}Adding hs module to the keycloak configuration${NC}"
-sh bin/jboss-cli.sh -c --command='/subsystem=keycloak-server/:write-attribute(name=providers,value=["classpath:${jboss.home.dir}/providers/*","module:hs-plugin-keycloak-ejb"])'
+bin/jboss-cli.sh --connect --controller=localhost:9990 --command='/subsystem=keycloak-server/:write-attribute(name=providers,value=["classpath:${jboss.home.dir}/providers/*","module:hs-plugin-keycloak-ejb"])'
 
 exit

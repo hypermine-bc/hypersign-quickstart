@@ -34,9 +34,20 @@ echo -e "${BLUE_BG}Running hypersign keycloak setup script${NC}"
 docker-compose -f kc-pg-hs.yml exec --user root keycloak sh /hs-kc-setup.sh
 
 echo -e "${BLUE_BG}Cleanup and Restart${NC}"
-docker-compose -f kc-pg-hs.yml exec --user root keycloak rm -rf hs-authenticator*
 docker-compose -f kc-pg-hs.yml restart keycloak
 docker ps
+
+
+sleep 20
+
+echo -e "${BLUE_BG}Running hypersign keycloak setting script${NC}"
+docker cp param.json "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/param.json
+docker cp client-create.json  "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/client-create.json
+docker cp client-update.json  "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/client-update.json
+docker cp kc.setting.sh  "$(docker-compose -f kc-pg-hs.yml ps -q keycloak)":/kc.setting.sh
+docker-compose -f kc-pg-hs.yml exec --user root keycloak sh /kc.setting.sh
+
+docker-compose -f kc-pg-hs.yml exec --user root keycloak rm -rf hs-authenticator*
 exit
 
 

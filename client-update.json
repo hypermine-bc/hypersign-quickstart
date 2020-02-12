@@ -1,5 +1,5 @@
 {
-  "id": "c9fefd7b-d604-43b0-894d-10d02c5d7603",
+  "id": "CLIENT_ID",
   "clientId": "hs-api-new",
   "rootUrl": "/hello/world",
   "adminUrl": "",
@@ -38,8 +38,8 @@
     "display.on.consent.screen": "false"
   },
   "authenticationFlowBindingOverrides": {
-    "browser": "84c7fc05-3549-49b0-bd48-4fc2a18ab14d",
-    "direct_grant": "84c7fc05-3549-49b0-bd48-4fc2a18ab14d"
+    "browser": "FLOW_ID",
+    "direct_grant": "FLOW_ID"
   },
   "fullScopeAllowed": true,
   "nodeReRegistrationTimeout": -1,
