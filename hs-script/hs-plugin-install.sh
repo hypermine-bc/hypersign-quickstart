@@ -17,27 +17,27 @@ tar -xvzf hs-theme.tar.gz
 
 
 echo -e "${BLUE_BG}Cleaning the hypersign plugin..${NC}"
-rm -rf /opt/jboss/keycloak/hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar
-rm -rf /opt/jboss/keycloak/modules/hs-plugin-keycloak-ejb/
-rm -rf /opt/jboss/keycloak/standalone/configuration/hypersign.properties
+rm -rf ${KCBASE}/hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar
+rm -rf ${KCBASE}/modules/hs-plugin-keycloak-ejb/
+rm -rf ${KCBASE}/standalone/configuration/hypersign.properties
 
 echo -e "${BLUE_BG}Coping the plugin..${NC}"
-cp hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar /opt/jboss/keycloak
+cp hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar ${KCBASE}
 
 
 echo -e "${BLUE_BG}Dploying the hypersign theme..${NC}"
-cp hs-themes/hypersign-config.ftl /opt/jboss/keycloak/themes/base/login
-cp hs-themes/hypersign.ftl /opt/jboss/keycloak/themes/base/login
-cp hs-themes/hypersign-new.ftl /opt/jboss/keycloak/themes/base/login
+cp hs-themes/hypersign-config.ftl ${KCBASE}/themes/base/login
+cp hs-themes/hypersign.ftl ${KCBASE}/themes/base/login
+cp hs-themes/hypersign-new.ftl ${KCBASE}/themes/base/login
 
 
 echo -e "${BLUE_BG}Dploying the hypersign config file..${NC}"
-cp  hypersign.properties /opt/jboss/keycloak/standalone/configuration/
+cp  hypersign.properties ${KCBASE}/standalone/configuration/
 
 
 echo -e "${BLUE_BG}Deploying the hypersign plugin..${NC}"
-cd /opt/jboss/keycloak
-sh bin/jboss-cli.sh --command="module add --name=hs-plugin-keycloak-ejb --resources=/opt/jboss/keycloak/hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar --dependencies=org.keycloak.keycloak-common,org.keycloak.keycloak-core,org.keycloak.keycloak-services,org.keycloak.keycloak-model-jpa,org.keycloak.keycloak-server-spi,org.keycloak.keycloak-server-spi-private,javax.ws.rs.api,javax.persistence.api,org.hibernate,org.javassist,org.liquibase,com.fasterxml.jackson.core.jackson-core,com.fasterxml.jackson.core.jackson-databind,com.fasterxml.jackson.core.jackson-annotations,org.jboss.resteasy.resteasy-jaxrs,org.jboss.logging,org.apache.httpcomponents,org.apache.commons.codec,org.keycloak.keycloak-wildfly-adduser"
+cd ${KCBASE}
+sh bin/jboss-cli.sh --command="module add --name=hs-plugin-keycloak-ejb --resources=${KCBASE}/hs-plugin-keycloak-ejb-0.2-SNAPSHOT.jar --dependencies=org.keycloak.keycloak-common,org.keycloak.keycloak-core,org.keycloak.keycloak-services,org.keycloak.keycloak-model-jpa,org.keycloak.keycloak-server-spi,org.keycloak.keycloak-server-spi-private,javax.ws.rs.api,javax.persistence.api,org.hibernate,org.javassist,org.liquibase,com.fasterxml.jackson.core.jackson-core,com.fasterxml.jackson.core.jackson-databind,com.fasterxml.jackson.core.jackson-annotations,org.jboss.resteasy.resteasy-jaxrs,org.jboss.logging,org.apache.httpcomponents,org.apache.commons.codec,org.keycloak.keycloak-wildfly-adduser"
 
 sleep 30
 
