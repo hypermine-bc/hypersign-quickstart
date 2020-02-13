@@ -1,6 +1,6 @@
 {
   "id": "CLIENT_ID",
-  "clientId": "hs-api-new",
+  "clientId": "CLIENT_ALIAS",
   "rootUrl": "/hello/world",
   "adminUrl": "",
   "surrogateAuthRequired": false,

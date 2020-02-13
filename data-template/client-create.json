@@ -2,7 +2,7 @@
   "enabled": true,
   "attributes": {},
   "redirectUris": [],
-  "clientId": "hs-api-new",
+  "clientId": "CLIENT_ALIAS",
   "rootUrl": "",
   "protocol": "openid-connect"
 }

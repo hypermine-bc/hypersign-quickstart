@@ -1,0 +1,5 @@
+
+
+```sh
+./hypersign-setup.sh
+```
