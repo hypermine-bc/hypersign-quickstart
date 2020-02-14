@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 KCBASE='/opt/jboss/keycloak'
 
 # exit on any error
-set -e
+# set -e
 
 echo -e "${BLUE_BG}Uncompressing...${NC}"
 tar -xvzf hs-authenticator.tar.gz 

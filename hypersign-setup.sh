@@ -21,7 +21,7 @@ docker cp data-template/authenticator-flow-update.json "$(docker-compose -f dock
 docker cp data-template/client-create.json  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/client-create.json
 docker cp data-template/client-update.json  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/client-update.json
 
-# wget https://github.com/hypermine-bc/hs-authenticator/releases/download/v1.0.1/hs-authenticator.tar.gz -O dist/hs-authenticator.tar.gz
+wget https://github.com/hypermine-bc/hs-authenticator/releases/download/v1.0.1/hs-authenticator.tar.gz -O dist/hs-authenticator.tar.gz
 docker cp dist/hs-authenticator.tar.gz "$(docker-compose -f docker-compose.yml ps -q keycloak)":/hs-authenticator.tar.gz
 
 # echo -e "${BLUE_BG}Running keycloak web context script${NC}"
@@ -34,7 +34,7 @@ echo -e "${BLUE_BG}Restarting keycloak server to apply changes${NC}"
 docker-compose -f docker-compose.yml restart keycloak
 docker ps
 
-sleep 20
+sleep 50
 
 echo -e "${BLUE_BG}Running hypersign keycloak setting script${NC}"
 docker-compose -f docker-compose.yml exec --user root keycloak sh /kc-configuration.sh

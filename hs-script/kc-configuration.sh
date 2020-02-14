@@ -20,13 +20,15 @@ AUTH_FLOW_NAME=hs-auth-flow
 CLIENT_ALIAS=hs-api
 KCBASE='/opt/jboss/keycloak'
 
-set -e
+# set -e
 echo -e "${BLUE_BG}KC-configuration setting script starts${NC}"
 
-## HS Authenticator flow setting
+## Loging to keycloak
 .${KCBASE}/bin/kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user $KC_USERNAME --password $KC_PASSWORD
+echo -e "${BLUE_BG}After log in${NC}"
 
-IF_HS_FLOW_NOT_PRESENT=$(./opt/jboss/keycloak/bin/kcadm.sh get authentication/flows --fields alias --format csv --noquotes  -r master 2>&1 | grep hs1-auth-flow)
+######################### HS Authenticator flow setting
+IF_HS_FLOW_NOT_PRESENT=$(./opt/jboss/keycloak/bin/kcadm.sh get authentication/flows --fields alias --format csv --noquotes  -r master 2>&1 | grep ${AUTH_FLOW_NAME})
 if [ -z "$IF_HS_FLOW_NOT_PRESENT" ]
 then
     echo -e "${GREEN}Creating flow: ${AUTH_FLOW_NAME} ${NC}"
@@ -35,8 +37,10 @@ then
 else
     echo -e "${YELLOW}hs-flow is already createad. so skipping...${NC}"
 fi  
+echo -e "${BLUE_BG}Done HS Authenticator ${NC}"
+##################################################
 
-## HS Authenticator flow execution setting
+######################### HS Authenticator flow execution setting
 IF_HSEXECUTION_NOT_PRESENT=$(.${KCBASE}/bin/kcadm.sh get authentication/flows/$AUTH_FLOW_NAME/executions --fields displayName --format csv --noquotes -r master 2>&1 | grep -w  "HyperSign QRCode")
 if [ -z "$IF_HSEXECUTION_NOT_PRESENT" ]
 then
@@ -50,8 +54,10 @@ then
 else
     echo -e "${YELLOW}Hypersign execution is already configured with $AUTH_FLOW_NAME authenticator flow. So skipping...${NC}"
 fi
+echo -e "${BLUE_BG}Done HS Authenticator flow execution ${NC}"
+##################################################
 
-## HS-API client setting
+########################### HS-API client setting
 IF_CLIENT_NOT_PRESENT=$(.${KCBASE}/bin/kcadm.sh get clients -r master --fields clientId --format csv --noquotes 2>&1 | grep -w ${CLIENT_ALIAS})
 if [ -z "$IF_CLIENT_NOT_PRESENT" ]
 then
@@ -68,8 +74,8 @@ then
 else
     echo -e "${YELLOW}Client $CLIENT_ALIAS execution is already configured. So skipping...${NC}"
 fi
-
 echo -e "${BLUE_BG}KC-configuration setting script ends${NC}"
+##################################################
 
 exit
 
