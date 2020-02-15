@@ -6,7 +6,9 @@ This project help developers to setup and use **Hypersign** as authentication an
 
 ## Why should I use it?
 
-Implementing authentication and authorisation module in your applications is quite challenging. It has a steep learning curve which then translates into hours and hours of development effort, just to figure out how a user will get into the system efficiently and securely.  The process is even more challenging when it comes to implement cryptographic based authentication for better security. **Hypersign** takes away all of these pain and let you focus on your business requirement and hence saves a lot of development effort. 
+Implementing authentication and authorisation module in your applications is quite challenging. It has a steep learning curve which then translates into hours and hours of development effort, just to figure out how a user will get into the system efficiently and securely.  The process is even more challenging when it comes to implement cryptographic based authentication for better security. 
+
+> **Hypersign** takes away all of these pain and let you focus on your business requirement and hence saves a lot of development effort. 
 
 ## Features  
 
