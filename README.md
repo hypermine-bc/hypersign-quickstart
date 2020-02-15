@@ -1,6 +1,6 @@
 # Hypersign Quickstart
 
-**Hypersign** is a cryptography based SingleSignOn Solution that enables users to securely access applications (web apps as well as DApps) without providing their access credentials [usernames and passwords]. It leverages full fledged SSO feature from an open source software - _KeyCloak_ - in order to provide a complete solution for Identity Management and Access Management. More about Hypersign is [here]([https://github.com/hypermine-bc/hypersign/blob/master/docs/overview.md).
+**Hypersign** is a cryptography based SingleSignOn Solution that enables users to securely access applications (web apps as well as DApps) without providing their access credentials [usernames and passwords]. It leverages full fledged SSO feature from an open source software - _KeyCloak_ - in order to provide a complete solution for Identity Management and Access Management. More about Hypersign is [here](https://github.com/hypermine-bc/hypersign/blob/master/docs/overview.md).
 
 This project help developers to setup and use **Hypersign** as authentication and authorisation module for their projects quickly and efficiently provided that they use docker. 
 
@@ -16,12 +16,12 @@ Implementing authentication and authorisation module in your applications is qui
 - Runs on light weight docker containers and hence consumes less resources (CPU and RAM).
 - Support for mobile as well as web apps.
 
-Detailed feature list can be found [here]([https://github.com/hypermine-bc/hypersign/blob/master/docs/overview.md#features).
+Detailed feature list can be found [here](https://github.com/hypermine-bc/hypersign/blob/master/docs/overview.md#features).
 
 
 ## Installation
 
-Please install [docker]([https://docs.docker.com/install/linux/docker-ce/ubuntu) before proceeding.
+Please install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu) before proceeding.
 ```sh
 git clone https://github.com/hypermine-bc/hypersign-quickstart.git 
 cd hypersign-quickstart 
