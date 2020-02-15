@@ -11,14 +11,18 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 BLUE_BG='\033[44m'
-Yellow='\033[0;33m'  # Yellow
+GREEN='\033[0;33m'  
+YELLOW='\033[1;33m' 
 NC='\033[0m' # No Color
+GRAY='\033[0;37m'
 
-KC_USERNAME=admin
-KC_PASSWORD=admin
-AUTH_FLOW_NAME=hs-auth-flow
-CLIENT_ALIAS=hs-api
-KCBASE='/opt/jboss/keycloak'
+KC_USERNAME="admin"
+KC_PASSWORD="admin"
+AUTH_FLOW_NAME="hs-auth-flow"
+KCBASE="/opt/jboss/keycloak"
+
+REDIRECT_URI="http://localhost:8000/*"
+CLIENT_ALIAS="sample-node-js-client"
 
 # set -e
 echo -e "${BLUE_BG}KC-configuration setting script starts${NC}"
@@ -28,10 +32,10 @@ echo -e "${BLUE_BG}KC-configuration setting script starts${NC}"
 echo -e "${BLUE_BG}After log in${NC}"
 
 ######################### HS Authenticator flow setting
-IF_HS_FLOW_NOT_PRESENT=$(./opt/jboss/keycloak/bin/kcadm.sh get authentication/flows --fields alias --format csv --noquotes  -r master 2>&1 | grep ${AUTH_FLOW_NAME})
+IF_HS_FLOW_NOT_PRESENT=$(.${KCBASE}/kcadm.sh get authentication/flows --fields alias --format csv --noquotes  -r master 2>&1 | grep ${AUTH_FLOW_NAME})
 if [ -z "$IF_HS_FLOW_NOT_PRESENT" ]
 then
-    echo -e "${GREEN}Creating flow: ${AUTH_FLOW_NAME} ${NC}"
+    echo -e "${GRAY}Creating flow: ${AUTH_FLOW_NAME} ${NC}"
     FLOW_ID=$(.${KCBASE}/bin/kcadm.sh create authentication/flows -s alias=$AUTH_FLOW_NAME -s providerId=basic-flow -s  description=$AUTH_FLOW_NAME -s  topLevel=true  -s builtIn=false -r master 2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
     echo -e "${GREEN}Creation success: flowid = $FLOW_ID ${NC}"
 else
@@ -44,39 +48,76 @@ echo -e "${BLUE_BG}Done HS Authenticator ${NC}"
 IF_HSEXECUTION_NOT_PRESENT=$(.${KCBASE}/bin/kcadm.sh get authentication/flows/$AUTH_FLOW_NAME/executions --fields displayName --format csv --noquotes -r master 2>&1 | grep -w  "HyperSign QRCode")
 if [ -z "$IF_HSEXECUTION_NOT_PRESENT" ]
 then
-    echo -e "${GREEN}Creating execution: Hypersign QRCode in flow: ${AUTH_FLOW_NAME} ${NC}"
+    echo -e "${GRAY}Creating execution: Hypersign QRCode in flow: ${AUTH_FLOW_NAME} ${NC}"
     EXECUTION_ID=$(.${KCBASE}/bin/kcadm.sh create authentication/flows/$AUTH_FLOW_NAME/executions/execution -r master -s provider=hyerpsign-qrocde-authenticator -s requirement=REQUIRED  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
     echo -e "${GREEN}Creation success: execid = $EXECUTION_ID ${NC}"
 
-    echo -e "${GREEN}Updating execution: Hypersign QRCode${NC}"
+    echo -e "${GRAY}Updating execution: Hypersign QRCode${NC}"
     sed -i "s/EXECUTION_ID/$EXECUTION_ID/g" /authenticator-flow-update.json
     .${KCBASE}/bin/kcadm.sh update authentication/flows/$AUTH_FLOW_NAME/executions -r master  -f /authenticator-flow-update.json
 else
     echo -e "${YELLOW}Hypersign execution is already configured with $AUTH_FLOW_NAME authenticator flow. So skipping...${NC}"
 fi
 echo -e "${BLUE_BG}Done HS Authenticator flow execution ${NC}"
+echo -e "${BLUE_BG}Create/Update client start ${NC}"
 ##################################################
 
-########################### HS-API client setting
-IF_CLIENT_NOT_PRESENT=$(.${KCBASE}/bin/kcadm.sh get clients -r master --fields clientId --format csv --noquotes 2>&1 | grep -w ${CLIENT_ALIAS})
-if [ -z "$IF_CLIENT_NOT_PRESENT" ]
-then
-    echo -e "${GREEN}Creating client: ${CLIENT_ID} ${NC}"
-    CLIENT_ID=$(.${KCBASE}/bin/kcadm.sh create clients -r master -f /client-create.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
-    echo -e "${GREEN}Creation success: clientid = $CLIENT_ID ${NC}"
+cp /client-create.json /client-create-api.json
+cp /client-update.json /client-update-api.json
 
-    sed -i "s/CLIENT_ID/$CLIENT_ID/g" /client-update.json
-    sed -i "s/FLOW_ID/$FLOW_ID/g" /client-update.json
-    sed -i "s/CLIENT_ALIAS/$CLIENT_ALIAS/g" /client-update.json
-    sed -i "s/CLIENT_ALIAS/$CLIENT_ALIAS/g" /client-update.json
-    echo -e "${GREEN}Updating client: ${CLIENT_ID} ${NC}"
-    .${KCBASE}/bin/kcadm.sh update clients/$CLIENT_ID -r master -f /client-update.json
-else
-    echo -e "${YELLOW}Client $CLIENT_ALIAS execution is already configured. So skipping...${NC}"
-fi
-echo -e "${BLUE_BG}KC-configuration setting script ends${NC}"
+########################### Registering hs-api client
+(
+    API_CLIENT_ALIAS="hs-api"
+    sed -i "s/CLIENT_ALIAS/${API_CLIENT_ALIAS}/g" /client-create-api.json
+    IF_CLIENT_NOT_PRESENT=$(.${KCBASE}/bin/kcadm.sh get clients -r master --fields clientId --format csv --noquotes 2>&1 | grep -w ${API_CLIENT_ALIAS})
+    if [ -z "$IF_CLIENT_NOT_PRESENT" ]
+    then
+        echo -e "${GRAY}Creating client ${API_CLIENT_ALIAS} ${NC}"
+        CLIENT_ID=$(.${KCBASE}/bin/kcadm.sh create clients -r master -f /client-create-api.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
+        echo -e "${GREEN}Client ${API_CLIENT_ALIAS} creation success: clientid = $CLIENT_ID ${NC}"
+
+        echo -e "${YELLOW}Updating client ${API_CLIENT_ALIAS} ...${NC}"
+        sed -i "s/CLIENT_ID/$CLIENT_ID/g" /client-update-api.json
+        sed -i "s/FLOW_ID/$FLOW_ID/g" /client-update-api.json
+        sed -i "s/CLIENT_ALIAS/$API_CLIENT_ALIAS/g" /client-update-api.json
+        sed -i 's,VALID_REDIRECT_URI,/*,g' /client-update-api.json
+        .${KCBASE}/bin/kcadm.sh update clients/$CLIENT_ID -r master -f /client-update-api.json
+        echo -e "${YELLOW}Updating client ${API_CLIENT_ALIAS} ${NC}...${GREEN}done${NC}"
+    else
+        echo -e "${YELLOW}Client $API_CLIENT_ALIAS execution is already configured. So skipping...${NC}"
+    fi
+    
+    
+)
 ##################################################
 
+########################### Registering your client
+(
+    sed -i "s/CLIENT_ALIAS/$CLIENT_ALIAS/g" /client-create.json
+    IF_CLIENT_NOT_PRESENT=$(.${KCBASE}/bin/kcadm.sh get clients -r master --fields clientId --format csv --noquotes 2>&1 | grep -w ${CLIENT_ALIAS})
+    if [ -z "$IF_CLIENT_NOT_PRESENT" ]
+    then
+        echo -e "Creating client ${CLIENT_ALIAS}... ${NC}"
+        CLIENT_ID=$(.${KCBASE}/bin/kcadm.sh create clients -r master -f /client-create.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
+        echo -e "${GREEN}Client ${CLIENT_ALIAS} creation success: clientid = $CLIENT_ID ${NC}"
+
+        echo -e "${YELLOW}Updating client ${CLIENT_ALIAS}...${NC}"
+        sed -i "s/CLIENT_ID/$CLIENT_ID/g" /client-update.json
+        sed -i "s/FLOW_ID/$FLOW_ID/g" /client-update.json
+        sed -i "s/CLIENT_ALIAS/$CLIENT_ALIAS/g" /client-update.json
+        sed -i "s,VALID_REDIRECT_URI,${REDIRECT_URI},g" /client-update.json
+        .${KCBASE}/bin/kcadm.sh update clients/$CLIENT_ID -r master -f /client-update.json
+        echo -e "${YELLOW}Updating client ${CLIENT_ALIAS} ${NC}...${GREEN}done${NC}"
+    else
+        echo -e "${YELLOW}Client $CLIENT_ALIAS execution is already configured. So skipping...${NC}"
+    fi
+    
+)
+##################################################
+echo -e "${BLUE_BG}Create/Update client done ${NC}"
+
+
+echo -e "${BLUE_BG}KC-configuration setting script finish${NC}"
 exit
 
 

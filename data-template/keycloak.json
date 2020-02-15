@@ -1,0 +1,8 @@
+{
+    "realm": "master",
+    "auth-server-url": "AUTH_SERVER_URL",
+    "ssl-required": "external",
+    "resource": "CLIENT_ALIAS",
+    "public-client": true,
+    "confidential-port": 0
+}
