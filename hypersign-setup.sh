@@ -2,6 +2,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 BLUE_BG='\033[44m'
+YELLOW='\033[0;33m'  # Yellow
 NC='\033[0m' # No Color
 
 mkdir dist
@@ -33,14 +34,14 @@ echo -e "${BLUE_BG}Restarting keycloak server to apply changes${NC}"
 docker-compose -f docker-compose.yml restart keycloak
 docker ps
 
-sleep 20
+sleep 50
 
 echo -e "${BLUE_BG}Running hypersign keycloak setting script${NC}"
 docker-compose -f docker-compose.yml exec --user root keycloak sh /kc-configuration.sh
 
 echo -e "${BLUE_BG}Cleanup${NC}"
 docker-compose -f docker-compose.yml exec --user root keycloak rm -rf hs-authenticator*
-rm -rf dist
+# rm -rf dist
 exit
 
 
