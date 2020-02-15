@@ -40,8 +40,8 @@ echo -e "${BLUE_BG}Running hypersign keycloak setting script${NC}"
 docker-compose -f docker-compose.yml exec --user root keycloak sh /kc-configuration.sh
 
 echo -e "${BLUE_BG}Cleanup${NC}"
-docker-compose -f docker-compose.yml exec --user root keycloak rm -rf hs-authenticator*
-# rm -rf dist
+docker-compose -f docker-compose.yml exec --user root keycloak rm -rf hs-authenticator* && rm -rf /*.json
+rm -rf dist
 exit
 
 

@@ -1,3 +1,4 @@
+#!/bin/bash
 ###
 # KEYCLOAK CONFIGURATION SCRIPT
 # -----------------------------
