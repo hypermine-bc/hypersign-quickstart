@@ -96,8 +96,6 @@ Although, the basic configurations for identity and access management is already
 
 Now that every thing is installed and setup, let's see how to use Hypersign in your project. We will take example of _securing APIs written in Node js_.
 
-Preparation:
-
 - Make node js project with `express` and copy `keycloak.json` file from `data-template` folder into the root directory of your project.
 
 ```json
@@ -126,7 +124,7 @@ var keycloak = new Keycloak({ store: memoryStore });
 
 //session
 app.use(session({
-  secret:'thisShouldBeLongAndSecret',
+  secret:'this_should_be_long_text',
   resave: false,
   saveUninitialized: true,
   store: memoryStore
@@ -155,7 +153,7 @@ app.listen(8000, function () {
 
 Try accessing `/` endpoint, you will get the response `This is public` immediately. Whereas, when you try to access `/test` endpoint, you will see a login page with QRCode but if `--no-passoword-less` option is set then you will see login form with username and password textboxes. You can either provide username and passoword (in case of `--no-passoword-less`) or scan the QRCode using `Hypersign Mobile app` to authenticate youself. Once you are authenticated, you can see access the protected resource i.e `This is protected` in this case. 
 
-The `/test` endpoint is protected using `keycloak.protect()` middleware which authenticates the user using keycloak and hs-auth servers and redirects the call to the provided `REDIRECT_URI`. You can donwload the full node js from [here]().
+The `/test` endpoint is protected using `keycloak.protect()` middleware which authenticates the user using keycloak and hs-auth servers and redirects the call to the provided `REDIRECT_URI`. You can donwload the full node js from [here](https://github.com/keycloak/keycloak-nodejs-connect/tree/master/example).
 
 
 
