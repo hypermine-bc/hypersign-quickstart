@@ -4,16 +4,18 @@
 VERSION="v0.0.1"
 REDIRECT_URI="http://localhost:8000/*"
 CLIENT_ALIAS="sample-node-js-client"
+NO_PASSWORDLESS=0
 
 usage() {
     echo "Hypersign-setup runs and configure all required docker containers for integrating your client project with Hypersign authenticaion module"
     echo  
     echo "Syntax: hypersign-setup.sh -r <REDIRECT_URI> -a <CLIENT_ALIAS>"
     echo "Command line options:"
-    echo "    -r | --redirect-uri  URI     Redirect URI once the user is authenticated from Hypersign"
-    echo "    -a | --client-alias  ALIAS   Name of client you want to configure"
-    echo "    -h | --help                  Print this help menu"
-    echo "    -V | --version               Print current version"
+    echo "    -r    | --redirect-uri  URI     Redirect URI once the user is authenticated from Hypersign"
+    echo "    -a    | --client-alias  ALIAS   Name of client you want to configure"
+    echo "    -npls | --no-password-less      For legacy authentication method"
+    echo "    -h    | --help                  Print this help menu"
+    echo "    -V    | --version               Print current version"
     echo 
     echo "Example:"
     echo "    Configure Hypersign for client 'my-demo-client' running on localhost at port 8000"
@@ -26,8 +28,9 @@ if [ $# -eq 0 ]
 then
     echo "WARNING: No arguments passed"
     echo "      Default parameters:"
-    echo "          REDIRECT_URI: ${REDIRECT_URI}"
-    echo "          CLIENT_ALIAS: ${CLIENT_ALIAS}"
+    echo "          REDIRECT_URI:     ${REDIRECT_URI}"
+    echo "          CLIENT_ALIAS:     ${CLIENT_ALIAS}"
+    echo "          NO_PASSWORD_LESS: ${NO_PASSWORDLESS} ( 0 for password less, 1 for password )"
     echo
 
     while true; do
@@ -55,11 +58,17 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -a | --client-alias )
     shift; CLIENT_ALIAS=$1
     ;;
+  -npls | --no-password-less )
+    echo "You have opted for legacy authention mechanism"
+    shift; NO_PASSWORDLESS=1
+    ;;
   * ) # incorrect option
     echo "Error: Invalid option"
     exit;;
 esac; shift; done
 if [[ "$1" == '--' ]]; then shift; fi
+
+
 
 
 ## check for docker
@@ -94,27 +103,33 @@ docker cp data-template/authenticator-flow-update.json "$(docker-compose -f dock
 docker cp data-template/client-create.json  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/client-create.json
 docker cp data-template/client-update.json  "$(docker-compose -f docker-compose.yml ps -q keycloak)":/client-update.json
 
-wget https://github.com/hypermine-bc/hs-authenticator/releases/download/v1.0.1/hs-authenticator.tar.gz -O dist/hs-authenticator.tar.gz
-docker cp dist/hs-authenticator.tar.gz "$(docker-compose -f docker-compose.yml ps -q keycloak)":/hs-authenticator.tar.gz
-
 # echo -e "${BLUE_BG}Running keycloak web context script${NC}"
 # docker-compose -f docker-compose.yml exec --user root keycloak sh /kc-webcontext.sh
 
-echo -e "${BLUE_BG}Running hypersign keycloak setup script${NC}"
-docker-compose -f docker-compose.yml exec --user root keycloak sh /hs-plugin-install.sh
+if [ ${NO_PASSWORDLESS} -eq 0 ]
+then
+  wget https://github.com/hypermine-bc/hs-authenticator/releases/download/v1.0.1/hs-authenticator.tar.gz -O dist/hs-authenticator.tar.gz
+  docker cp dist/hs-authenticator.tar.gz "$(docker-compose -f docker-compose.yml ps -q keycloak)":/hs-authenticator.tar.gz
 
-echo -e "${BLUE_BG}Restarting keycloak server to apply changes${NC}"
-docker-compose -f docker-compose.yml restart keycloak
-docker ps
+  echo -e "${BLUE_BG}Running hypersign keycloak setup script${NC}"
+  docker-compose -f docker-compose.yml exec --user root keycloak sh /hs-plugin-install.sh
 
-sleep 50
+  echo -e "${BLUE_BG}Restarting keycloak server to apply changes${NC}"
+  docker-compose -f docker-compose.yml restart keycloak
+  docker ps
+
+  sleep 50
+else
+  echo "--no-password-less option is set. So skipping hypersign plugin installation"
+  sleep 30
+fi
 
 echo -e "${BLUE_BG}Running hypersign keycloak setting script${NC}"
-docker-compose -f docker-compose.yml exec --user root keycloak sh /kc-configuration.sh ${REDIRECT_URI} ${CLIENT_ALIAS}
+docker-compose -f docker-compose.yml exec --user root keycloak sh /kc-configuration.sh ${REDIRECT_URI} ${CLIENT_ALIAS} ${NO_PASSWORDLESS}
 
 echo -e "${BLUE_BG}Cleanup${NC}"
 docker-compose -f docker-compose.yml exec --user root keycloak rm -rf hs-authenticator* && rm -rf /*.json
-rm -rf dist
+# rm -rf dist
 exit
 
 

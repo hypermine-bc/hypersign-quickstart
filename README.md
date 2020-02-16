@@ -11,7 +11,7 @@ Implementing authentication and authorisation module in your applications is qui
 ## Features  
 
 - Out of the box authentication and authorisation module.
-- Password less authentication.
+- Supports password as well as password less (by default) authentication.
 - On-premise authentication server.
 - Runs on light weight docker containers and hence consumes less resources (CPU and RAM).
 - Support for mobile as well as web apps.
@@ -40,10 +40,11 @@ Hypersign-setup runs and configure all required docker containers for integratin
 
 Syntax: hypersign-setup.sh -r <REDIRECT_URI> -a <CLIENT_ALIAS>
 Command line options:
-    -r | --redirect-uri  URI     Redirect URI once the user is authenticated from Hypersign
-    -a | --client-alias  ALIAS   Name of client you want to configure
-    -h | --help                  Print this help menu
-    -V | --version               Print current version
+    -r    | --redirect-uri  URI     Redirect URI once the user is authenticated from Hypersign
+    -a    | --client-alias  ALIAS   Name of client you want to configure
+    -npls | --no-password-less      For legacy authentication method (username/password)
+    -h    | --help                  Print this help menu
+    -V    | --version               Print current version
 
 Example:
     Configure Hypersign for client 'my-demo-client' running on localhost at port 8000
@@ -55,23 +56,29 @@ Example:
 If no parameter is passed with `hypersign-setup.sh` script, then default parameters will be taken. Try running the script without giving any parameter, it shows the default params and asks for confirmation to proceed.
 
 ```sh
-Warning: No arguments passed
-      Default parameters:
-          REDIRECT_URI: http://localhost:8000/*
-          CLIENT_ALIAS: sample-node-js-client
+WARNING: No arguments passed
+         Default parameters:
+            REDIRECT_URI: http://localhost:8000/*
+            CLIENT_ALIAS: sample-node-js-client
 
 Do you wish to continue with default paramaters? (y|n) 
 ```
 
-### On successfull execution
+### Blocked ports
 
 On successfully execution of the script, you should be able to see (use `docker ps`) three containers running in your machine. 
 - A keycloak server at port `8080`
 - A postgres database server at port `5432`
 - A hs-auth server at port `3000`
 
-You can change the ports as per your convenience by changing them in  docker-compose file. In future versions you shall be able to do that using cli itself.
+You can change these ports as per your convenience in docker-compose file. In future versions you shall be able to do that using the cli itself.
+
+### No-password-less option
+
+Password less authentication is default feature of Hypersign. However, one can still use legacy credential methodology (i.e username/password) by using option `--no-password-less` with `hypersign-setup` script. On enabling this option, `hypersign plugin` will not be deployed in keycloak server and user will be able to see `username/password` form instead of `QR code` on the login page.
+
 
 ## Usage
+
 
 
