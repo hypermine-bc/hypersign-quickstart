@@ -6,7 +6,7 @@ REDIRECT_URI="http://localhost:8000/*"
 CLIENT_ALIAS="sample-node-js-client"
 
 usage() {
-    echo "Hypersign-setup run and configure up all required docker containers for integrating with Hypersign authenticaion module"
+    echo "Hypersign-setup runs and configure all required docker containers for integrating your client project with Hypersign authenticaion module"
     echo  
     echo "Syntax: hypersign-setup.sh -r <REDIRECT_URI> -a <CLIENT_ALIAS>"
     echo "Command line options:"
@@ -16,7 +16,7 @@ usage() {
     echo "    -V | --version               Print current version"
     echo 
     echo "Example:"
-    echo "    Configure Hypersign for client a my-demo-client running on localhost at port 8000"
+    echo "    Configure Hypersign for client 'my-demo-client' running on localhost at port 8000"
     echo "        `basename $0` -r http://localhost:8000/* -a my-demo-client"
     echo 
 }
@@ -24,7 +24,7 @@ usage() {
 ## Warning for default parameters
 if [ $# -eq 0 ]
 then
-    echo "Warning: No arguments passed"
+    echo "WARNING: No arguments passed"
     echo "      Default parameters:"
     echo "          REDIRECT_URI: ${REDIRECT_URI}"
     echo "          CLIENT_ALIAS: ${CLIENT_ALIAS}"

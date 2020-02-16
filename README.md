@@ -21,6 +21,8 @@ Detailed feature list can be found [here](https://github.com/hypermine-bc/hypers
 
 ## Installation
 
+### Run
+
 Note*:- Please install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu) before proceeding otherwise the script will exit with error.
 
 ```sh
@@ -34,7 +36,7 @@ cd hypersign-quickstart
 Explanation of arguments can be viewed using `./hypersign-setup.sh --help` command.
 
 ```sh
-Hypersign-setup run and configure up all required docker containers for integrating with Hypersign authenticaion module
+Hypersign-setup runs and configure all required docker containers for integrating your client project with Hypersign authenticaion module
 
 Syntax: hypersign-setup.sh -r <REDIRECT_URI> -a <CLIENT_ALIAS>
 Command line options:
@@ -44,7 +46,7 @@ Command line options:
     -V | --version               Print current version
 
 Example:
-    Configure Hypersign for client a my-demo-client running on localhost at port 8000
+    Configure Hypersign for client 'my-demo-client' running on localhost at port 8000
         hypersign-setup.sh -r http://localhost:8000/* -a my-demo-client
 ```
 
