@@ -76,7 +76,7 @@ Do you wish to continue with default paramaters? (y|n)
 Password less authentication is default feature of Hypersign. However, one can still use legacy credential methodology (i.e username/password) by using option `--no-password-less` with `hypersign-setup` script. On enabling this option, `hypersign plugin` will not be deployed in keycloak server and user will be able to see `username/password` form instead of `QR code` on the login page.
 
 
-### On successful execution
+### On successful installation
 
 **Occupied ports**
 
@@ -90,15 +90,78 @@ On successfully execution of the script, you should be able to see (use `docker 
 
 Although, the basic configurations for identity and access management is already done once all containers run successfully, you (the admin) will get a *Management portal* at `http://localhost:8080` for managing advance identity related configurations like groups, users, roles, scope etc. The default credentials for admin user is: Username: `admin`, Password: `admin`.
 
-
----
-
-*Note* : You can configure ports and credentials for management portal as per your convenience in the docker-compose file, present in the root directory of this repository. In future versions you shall be able to do that using the cli itself.
+> You can configure ports and credentials for management portal as per your convenience in the docker-compose file, present in the root directory of this repository. In future versions you shall be able to do that using the cli itself.
 
 ## Usage
 
+Now that every thing is installed and setup, let's see how to use Hypersign in your project. We will take example of _securing APIs written in Node js_.
 
-Now that every thing is setup and installed, let's learn how to use hypersign in your project. I will take example 
+Preparation:
+
+- Make node js project with `express` and copy `keycloak.json` file from `data-template` folder into the root directory of your project.
+
+```json
+    {
+        "realm": "master",
+        "auth-server-url": "http://localhost:8080/auth/",
+        "ssl-required": "external",
+        "resource": "node-js-client-app",
+        "public-client": true,
+        "confidential-port": 0
+    }
+```
+
+- Install `keycloak-connect` and `express-session` libraries from npm
+- Add `app.js` with following code:
+
+```js
+'use strict';
+const Keycloak = require('keycloak-connect');
+const express = require('express');
+const session = require('express-session');
+const app = express();
+
+var memoryStore = new session.MemoryStore();
+var keycloak = new Keycloak({ store: memoryStore });
+
+//session
+app.use(session({
+  secret:'thisShouldBeLongAndSecret',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
+}));
+
+app.use(keycloak.middleware());
+
+//route protected with Keycloak
+app.get('/test', keycloak.protect(), function(req, res){
+  res.send("This is protected");
+});
+
+//unprotected route
+app.get('/',function(req,res){
+  res.send("This is public");
+});
+
+app.use( keycloak.middleware( { logout: '/'} ));
+
+app.listen(8000, function () {
+  console.log('Listening at http://localhost:8000');
+});
+
+```
+- Run the server using `node app.js`
+
+Try accessing `/` endpoint, you will get the response `This is public` immediately. Whereas, when you try to access `/test` endpoint, you will see a login page with QRCode but if `--no-passoword-less` option is set then you will see login form with username and password textboxes. You can either provide username and passoword (in case of `--no-passoword-less`) or scan the QRCode using `Hypersign Mobile app` to authenticate youself. Once you are authenticated, you can see access the protected resource i.e `This is protected` in this case. 
+
+The `/test` endpoint is protected using `keycloak.protect()` middleware which authenticates the user using keycloak and hs-auth servers and redirects the call to the provided `REDIRECT_URI`. You can donwload the full node js from [here]().
+
+
+
+
+
+
 
 
 
