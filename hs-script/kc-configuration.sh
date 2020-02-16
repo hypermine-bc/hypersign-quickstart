@@ -7,7 +7,6 @@
 # Author: Vishwas Anand Bhushan
 # Ref: https://github.com/keycloak/keycloak-documentation/blob/master/server_admin/topics/admin-cli.adoc
 ###
-
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
@@ -22,8 +21,8 @@ KC_PASSWORD="admin"
 AUTH_FLOW_NAME="hs-auth-flow"
 KCBASE="/opt/jboss/keycloak"
 
-REDIRECT_URI="http://localhost:8000/*"
-CLIENT_ALIAS="sample-node-js-client"
+REDIRECT_URI=$1
+CLIENT_ALIAS=$2
 
 # set -e
 echo -e "${BLUE_BG}KC-configuration setting script starts${NC}"
