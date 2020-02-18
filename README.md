@@ -161,6 +161,10 @@ The `/test` endpoint is protected using `keycloak.protect()` middleware which au
 
 You can quickly take a glance at ["how does it work?"](https://github.com/hypermine-bc/hypersign/blob/master/docs/overview.md#how-does-it-work) and for understanding complete registration and login flow of this application you can visit [here](https://github.com/hypermine-bc/hypersign/blob/master/docs/registration_%26_login.md#registration). 
 
+## Disclaimer
+
+The software is still in testing phase (specially with cryptographic protocols) so we suggest you to not to use it (for now) in production.
+
 
 
 
