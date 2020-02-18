@@ -151,16 +151,15 @@ app.listen(8000, function () {
 });
 
 ```
-- Run the server using `node app.js`
+- Run the server using `node app.js`. The server (client's) will start running on `http://localhost:8000`
 
 Try accessing `/` endpoint, you will get the response `This is public` immediately. Whereas, when you try to access `/test` endpoint, you will see a login page with QRCode but if `--no-passoword-less` option is set then you will see login form with username and password textboxes. You can either provide username and passoword (in case of `--no-passoword-less`) or scan the QRCode using `Hypersign Mobile app` to authenticate youself. Once you are authenticated, you can see access the protected resource i.e `This is protected` in this case. 
 
 The `/test` endpoint is protected using `keycloak.protect()` middleware which authenticates the user using keycloak and hs-auth servers and redirects the call to the provided `REDIRECT_URI`. You can donwload the full node js from [here](https://github.com/keycloak/keycloak-nodejs-connect/tree/master/example).
 
+## Further reading
 
-
-
-
+Complete registration and login flow of this application can be understood from [here](https://github.com/hypermine-bc/hypersign/blob/master/docs/registration_%26_login.md#registration). 
 
 
 
