@@ -67,9 +67,11 @@ WARNING: No arguments passed
          Default parameters:
             REDIRECT_URI: http://localhost:8000/*
             CLIENT_ALIAS: sample-node-js-client
+            NO-PASSWORD_LESS: false
 
 Do you wish to continue with default paramaters? (y|n) 
 ```
+Even if you run the script with default parameters, you can change them using *Management Portal* later. Will discuss about *Management Portal* in later section of this document.
 
 ### No-password-less option
 
