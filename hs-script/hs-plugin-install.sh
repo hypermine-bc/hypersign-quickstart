@@ -11,7 +11,7 @@ KCBASE='/opt/jboss/keycloak'
 # set -e
 
 echo -e "${BLUE_BG}Uncompressing...${NC}"
-tar -xvzf hs-authenticator.tar.gz 
+tar -xvzf /hs-authenticator.tar.gz 
 cd hs-authenticator
 tar -xvzf hs-theme.tar.gz
 
