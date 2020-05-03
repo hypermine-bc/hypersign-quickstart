@@ -36,7 +36,7 @@ echo -e "${BLUE_BG}After log in${NC}"
 if [ ${NO_PASSWORDLESS} -eq 0 ]
 then
     ######################### HS Authenticator flow setting
-    IF_HS_FLOW_NOT_PRESENT=$(.${KCBASE}/kcadm.sh get authentication/flows --fields alias --format csv --noquotes  -r master 2>&1 | grep ${AUTH_FLOW_NAME})
+    IF_HS_FLOW_NOT_PRESENT=$(${KCBASE}/kcadm.sh get authentication/flows --fields alias --format csv --noquotes  -r master 2>&1 | grep ${AUTH_FLOW_NAME})
     if [ -z "$IF_HS_FLOW_NOT_PRESENT" ]
     then
         echo -e "${GRAY}Creating flow: ${AUTH_FLOW_NAME} ${NC}"
@@ -77,7 +77,7 @@ then
         if [ -z "$IF_CLIENT_NOT_PRESENT" ]
         then
             echo -e "${GRAY}Creating client ${API_CLIENT_ALIAS} ${NC}"
-            CLIENT_ID=$(${KCBASE}/bin/kcadm.sh create clients -r master -f /client-create-api.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
+            CLIENT_ID=$(${KCBASE}/bin/kcadm.sh create clients -r master -f $CONFIGPATH/client-create-api.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
             echo -e "${GREEN}Client ${API_CLIENT_ALIAS} creation success: clientid = $CLIENT_ID ${NC}"
 
             echo -e "${YELLOW}Updating client ${API_CLIENT_ALIAS} ...${NC}"
@@ -104,7 +104,7 @@ fi
     if [ -z "$IF_CLIENT_NOT_PRESENT" ]
     then
         echo -e "Creating client ${CLIENT_ALIAS}... ${NC}"
-        CLIENT_ID=$(${KCBASE}/bin/kcadm.sh create clients -r master -f /client-create.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
+        CLIENT_ID=$(${KCBASE}/bin/kcadm.sh create clients -r master -f $CONFIGPATH/client-create.json  2>&1 | sed -n "s/^.*'\(.*\)'.*$/\1/ p")
         echo -e "${GREEN}Client ${CLIENT_ALIAS} creation success: clientid = $CLIENT_ID ${NC}"
 
         echo -e "${YELLOW}Updating client ${CLIENT_ALIAS}...${NC}"

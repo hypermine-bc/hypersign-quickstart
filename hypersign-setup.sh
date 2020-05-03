@@ -119,18 +119,18 @@ then
   docker-compose -f docker-compose.yml restart keycloak
   docker ps
 
-  # sleep 120
+  sleep 50
 else
   echo "--no-password-less option is set. So skipping hypersign plugin installation"
   sleep 30
 fi
 
 echo -e "${BLUE_BG}Running hypersign keycloak setting script${NC}"
-# docker-compose -f docker-compose.yml exec --user root keycloak sh $CONFIGPATH/kc-configuration.sh ${REDIRECT_URI} ${CLIENT_ALIAS} ${NO_PASSWORDLESS}
+docker-compose -f docker-compose.yml exec --user root keycloak sh $CONFIGPATH/kc-configuration.sh ${REDIRECT_URI} ${CLIENT_ALIAS} ${NO_PASSWORDLESS}
 
 echo -e "${BLUE_BG}Cleanup${NC}"
-# docker-compose -f docker-compose.yml exec --user root keycloak rm -rf hs-authenticator* && rm -rf /*.json
-# rm -rf dist
+docker-compose -f docker-compose.yml exec --user root keycloak rm -rf hs-authenticator* && rm -rf /opt/jboss/*.json
+rm -rf dist
 exit
 
 
