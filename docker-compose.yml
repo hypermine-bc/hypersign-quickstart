@@ -1,14 +1,14 @@
 version: '3'
 
 volumes:
-  postgresdatabase10:
+  postgresdatabase:
       driver: local  
 
 services:
   postgres:
       image: postgres:10
       volumes:
-        - postgresdatabase10:/var/lib/postgresql/data
+        - postgresdatabase:/var/lib/postgresql/data
       environment:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
