@@ -1,14 +1,14 @@
 version: '3'
 
 volumes:
-  postgresdatabase:
+  postgresdatabase110:
       driver: local  
 
 services:
   postgres:
       image: postgres:10
       volumes:
-        - postgresdatabase:/var/lib/postgresql/data
+        - postgresdatabase110:/var/lib/postgresql/data
       environment:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
@@ -17,7 +17,7 @@ services:
         - 5432:5432
 
   keycloak:
-      image: jboss/keycloak
+      image: jboss/keycloak:4.8.3.Final
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: postgres
