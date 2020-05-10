@@ -159,28 +159,12 @@ The `/test` endpoint is protected using `keycloak.protect()` middleware which au
 
 ## Mobile Authenticator
 
-- Step 1
-
-  Download the mobile authenticator from this [link](https://github.com/hypermine-bc/hypersign-mobile/releases/download/v0.1-demo-app/hypersign-demo-app.apk) 
-
-- Step 2
-
-  in your mac or linux system open terminal and run `ifconfig`, You will see your wifi IP
+1. Download the mobile authenticator from this [link](https://github.com/hypermine-bc/hypersign-mobile/releases/download/v0.1-demo-app/hypersign-demo-app.apk) 
+2. In your mac or linux system open terminal and run `ifconfig`, You will see your wifi IP
   something like `192.168.1.4`
-
-- Step 3 
-
-  in the mobile app you will see `New user` link on th elogin scren click on that, It will take you to registration page.
-
-- Step 4
-
-  In the Url section add following url 
-
-  `http://your-local-ip:8080/keycloak/auth/realms/master/hypersign`
-  
-  and pass other details such as user name, email and pin
-
-
+3. In the mobile app you will see `New user` link on th elogin scren click on that, It will take you to registration page.
+4. In the Url section add following url  `http://your-local-ip:8080/auth/realms/master/hypersign`
+   and pass other details such as user name, email and pin
 
 ## Further reading
 
