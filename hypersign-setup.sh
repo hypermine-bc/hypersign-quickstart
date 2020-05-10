@@ -87,8 +87,8 @@ BLUE_BG='\033[44m'
 YELLOW='\033[0;33m'  # Yellow
 NC='\033[0m' # No Color
 CONFIGPATH="/opt/jboss"
-#rm -rf dist
-#mkdir dist
+rm -rf dist
+mkdir dist
 
 echo -e "${BLUE_BG}Restarting docker containers...${NC}"
 docker-compose -f docker-compose.yml config
