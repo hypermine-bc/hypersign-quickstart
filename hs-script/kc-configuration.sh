@@ -30,7 +30,7 @@ KC_PASSWORD=$5
 echo -e "${BLUE_BG}KC-configuration setting script starts${NC}"
 
 ## Loging to keycloak
-${KCBASE}/bin/kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user $KC_USERNAME --password $KC_PASSWORD
+${KCBASE}/bin/kcadm.sh config credentials --server http://localhost:8080/keycloak/auth --realm master --user $KC_USERNAME --password $KC_PASSWORD
 echo -e "${BLUE_BG}After log in${NC}"
 
 if [ ${NO_PASSWORDLESS} -eq 0 ]
