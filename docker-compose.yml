@@ -1,14 +1,14 @@
 version: '3'
 
 volumes:
-  postgresdatabase2:
+  postgresdatabase:
       driver: local  
 
 services:
   postgres:
       image: postgres:10
       volumes:
-        - postgresdatabase2:/var/lib/postgresql/data
+        - postgresdatabase:/var/lib/postgresql/data
       environment:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
@@ -17,17 +17,18 @@ services:
         - 5432:5432
 
   keycloak:
-      image: jboss/keycloak:4.8.3.Final
+      build: .
       environment:
-        DB_VENDOR: POSTGRES
-        DB_ADDR: postgres
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_SCHEMA: public
-        DB_PASSWORD: password
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: admin
-        KCBASE: /opt/jboss/keycloak/
+        - DB_VENDOR=POSTGRES
+        - DB_ADDR=postgres
+        - DB_DATABASE=keycloak
+        - DB_USER=keycloak
+        - DB_SCHEMA=public
+        - DB_PASSWORD=password
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=admin
+        - KCBASE=/opt/jboss/keycloak/
+        - PROXY_ADDRESS_FORWARDING=true
       ports:
         - 8080:8080
       depends_on:

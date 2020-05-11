@@ -121,7 +121,7 @@ echo -e "${BLUE_BG}Running keycloak web context script${NC}"
 
 if [ ${NO_PASSWORDLESS} -eq 0 ]
 then
-  wget https://github.com/hypermine-bc/hs-authenticator/releases/download/v1.0.2/hs-authenticator.tar.gz -O dist/hs-authenticator.tar.gz
+  wget https://github.com/hypermine-bc/hs-authenticator/releases/download/v1.0.1/hs-authenticator.tar.gz -O dist/hs-authenticator.tar.gz
   docker cp dist/hs-authenticator.tar.gz "$(docker-compose -f docker-compose.yml ps -q keycloak)":$CONFIGPATH/hs-authenticator.tar.gz
 
   echo -e "${BLUE_BG}Running hypersign keycloak setup script${NC}"
