@@ -1,15 +1,15 @@
 {
   "id": "CLIENT_ID",
   "clientId": "CLIENT_ALIAS",
-  "rootUrl": "",
-  "adminUrl": "",
+  "rootUrl": "VALID_REDIRECT_URI",
+  "adminUrl": "VALID_REDIRECT_URI",
   "surrogateAuthRequired": false,
   "enabled": true,
   "clientAuthenticatorType": "client-secret",
   "redirectUris": [
-    "VALID_REDIRECT_URI"
+    "VALID_REDIRECT_URI/*"
   ],
-  "webOrigins": [],
+  "webOrigins": ["VALID_REDIRECT_URI"],
   "notBefore": 0,
   "bearerOnly": false,
   "consentRequired": false,

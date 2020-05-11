@@ -2,7 +2,7 @@
 
 ## default parameters
 VERSION="v0.0.1"
-REDIRECT_URI="http://localhost:8000/*"
+REDIRECT_URI="http://localhost:8000"
 CLIENT_ALIAS="sample-node-js-client"
 NO_PASSWORDLESS=0
 KC_USERNAME=admin
@@ -23,7 +23,7 @@ usage() {
     echo 
     echo "Example:"
     echo "    Configure Hypersign for client 'my-demo-client' running on localhost at port 8000"
-    echo "        `basename $0` -r http://localhost:8000/* -a my-demo-client -u admin -p admin"
+    echo "        `basename $0` -r http://localhost:8000 -a my-demo-client -u admin -p admin"
     echo 
 }
 
