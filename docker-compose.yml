@@ -1,21 +1,7 @@
 version: '3'
 
-volumes:
-  postgresdatabase:
-      driver: local  
-
 services:
-  postgres:
-      image: postgres:10
-      volumes:
-        - postgresdatabase:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
-      ports:
-        - 5432:5432
-
+  
   keycloak:
       build: .
       environment:
@@ -35,11 +21,14 @@ services:
         - hs-auth-server
         - postgres
 
-  hs-auth-server:
-      image: hypermine/hs-auth-server
-      ports:
-        - 3000:3000
-        
+  keycloak-db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloakdb
+    volumes:
+      - pgdata1:/var/lib/postgresql/data
 
-
-        
+volumes:
+  pgdata1:
