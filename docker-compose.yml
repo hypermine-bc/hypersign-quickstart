@@ -32,6 +32,7 @@ services:
       ports:
         - 8080:8080
       depends_on:
+        - hs-auth-server
         - postgres
 
   hs-auth-server:
