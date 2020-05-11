@@ -16,8 +16,6 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 GRAY='\033[0;37m'
 
-KC_USERNAME="admin"
-KC_PASSWORD="admin"
 AUTH_FLOW_NAME="hs-auth-flow"
 KCBASE="/opt/jboss/keycloak"
 CONFIGPATH="/opt/jboss"
@@ -25,6 +23,8 @@ CONFIGPATH="/opt/jboss"
 REDIRECT_URI=$1
 CLIENT_ALIAS=$2
 NO_PASSWORDLESS=$3
+KC_USERNAME=$4
+KC_PASSWORD=$5
 
 # set -e
 echo -e "${BLUE_BG}KC-configuration setting script starts${NC}"
