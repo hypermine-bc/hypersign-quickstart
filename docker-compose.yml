@@ -1,44 +1,33 @@
 version: '3'
 
-volumes:
-  postgresdatabase:
-      driver: local  
-
 services:
-  postgres:
-      image: postgres:10
-      volumes:
-        - postgresdatabase:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
-      ports:
-        - 5432:5432
-
+  
   keycloak:
-      build: .
-      environment:
-        - DB_VENDOR=POSTGRES
-        - DB_ADDR=postgres
-        - DB_DATABASE=keycloak
-        - DB_USER=keycloak
-        - DB_SCHEMA=public
-        - DB_PASSWORD=password
-        - KEYCLOAK_USER=admin
-        - KEYCLOAK_PASSWORD=admin
-        - KCBASE=/opt/jboss/keycloak/
-        - PROXY_ADDRESS_FORWARDING=true
-      ports:
-        - 8080:8080
-      depends_on:
-        - postgres
+     build: .
+     restart: on-failure
+     environment:
+       - KEYCLOAK_USER=admin
+       - KEYCLOAK_PASSWORD=password
+       - DB_VENDOR=postgres
+       - DB_USER=admin
+       - DB_PASSWORD=password
+       - DB_ADDR=keycloak-db
+       - DB_PORT=5432
+       - DB_DATABASE=keycloakdb
+       - PROXY_ADDRESS_FORWARDING=true
+     depends_on:
+       - keycloak-db
+     ports: 
+       - "8080:8080"
 
-  hs-auth-server:
-      image: hypermine/hs-auth-server
-      ports:
-        - 3000:3000
-        
+  keycloak-db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloakdb
+    volumes:
+      - pgdata1:/var/lib/postgresql/data
 
-
-        
+volumes:
+  pgdata1:
