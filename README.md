@@ -153,9 +153,18 @@ app.listen(8000, function () {
 ```
 - Run the server using `node app.js`. The server (client's) will start running on `http://localhost:8000`
 
-Try accessing `/` endpoint, you will get the response `This is public` immediately. Whereas, when you try to access `/test` endpoint, you will see a login page with QRCode but if `--no-passoword-less` option is set then you will see login form with username and password textboxes. You can either provide username and passoword (in case of `--no-passoword-less`) or scan the QRCode using `Hypersign Mobile app` to authenticate youself. Once you are authenticated, you can see access the protected resource i.e `This is protected` in this case. 
+Try accessing `/` endpoint, you will get the response `This is public` immediately. Whereas, when you try to access `/test` endpoint, you will see a login page with QRCode but if `--no-passoword-less` option is set then you will see login form with username and password textboxes. You can either provide username and passoword (in case of `--no-passoword-less`) or scan the QRCode using `Hypersign Mobile app` to authenticate youself [Read the Mobile App configuration below]. Once you are authenticated, you can see access the protected resource i.e `This is protected` in this case. 
 
 The `/test` endpoint is protected using `keycloak.protect()` middleware which authenticates the user using keycloak and hs-auth servers and redirects the call to the provided `REDIRECT_URI`. You can donwload the full node js from [here](https://github.com/keycloak/keycloak-nodejs-connect/tree/master/example).
+
+## Mobile Authenticator
+
+1. Download the mobile authenticator from this [link](https://github.com/hypermine-bc/hypersign-mobile/releases/download/v0.1-demo-app/hypersign-demo-app.apk) 
+2. In your mac or linux system open terminal and run `ifconfig`, You will see your wifi IP
+  something like `192.168.1.4`
+3. In the mobile app you will see `New user` link on the login screen click on that, it will take you to registration page.
+4. In the Url section add following url  `http://your-local-ip:8080/auth/realms/master/hypersign`
+   and pass other details such as user name, email and pin
 
 ## Further reading
 
